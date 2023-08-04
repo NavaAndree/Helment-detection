@@ -1,0 +1,26 @@
+# Activar entorno conda
+$ conda activate tf
+$ conda deactivate
+
+# Dirección de trabajo 
+cd OneDrive\Documentos\TESIS
+C:\Users\navan\OneDrive\Documentos\TESIS
+
+# Activar entorno virtual
+virtualenv -p python3 dree  ## Crear entorno
+.\dree\Scripts\activate
+
+# GitHub
+C:\Users\navan\OneDrive\Documentos\TESIS\TesisDree\Scripts\
+
+git config --global user.name ""
+git config --global user.email ""
+
+git init 
+rm -rf .git      # Borrar repositorio
+git add .
+git log --oneline
+git commit -m ""
+git remote add origin https://github.com/NavaAndree/Tesis-dree.git
+git branch -M main
+git push -u origin main
