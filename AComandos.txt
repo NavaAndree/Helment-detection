@@ -11,7 +11,7 @@ virtualenv -p python3 dree  ## Crear entorno
 .\dree\Scripts\activate
 
 # GitHub
-C:\Users\navan\OneDrive\Documentos\TESIS\TesisDree\Scripts\
+C:\Users\navan\OneDrive\Documentos\TESIS\TesisDree
 
 git config --global user.name ""
 git config --global user.email ""
