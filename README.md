@@ -1,4 +1,4 @@
-# Tesis Andreé Mauricio Nava García
+# Helment Detection || Andreé Mauricio Nava García
 Points to review:
 * Extract frames
 * Situation: Before ignition
