@@ -1,5 +1,5 @@
-# Description: This program extracts frames from a video and compares them to determine if they 
-# are similar or not.
+# Description: This program extracts frames from various videos (difference between exfps_comp.py and this 
+# script) and compares them to determine if they are similar or not.
 
 from datetime import timedelta
 import cv2, shutil, os, random
@@ -33,16 +33,18 @@ def get_saving_frames_durations(cap, saving_fps):
         s.append(i)
     return s
 
-def get_frames():
-    os.chdir(r'C:/Users/navan/OneDrive/Escritorio/database/sc')  # Change the current working directory
+def get_frames(cont):
+    os.chdir(r'/Users/navan/OneDrive/Escritorio/database/sc')  # Change the current working directory
     # Open the video file
-    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\videos_sc\\Training\\p1.mp4') 
+    name_video = names_video(cont)[1]
+    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\videos_sc\\Training\\' + name_video) 
     fps = cap.get(cv2.CAP_PROP_FPS)        # Get the frames per second
     saving_frames_per_second = min(fps, SAVING_FRANES_PER_SECOND) # Get the saving frames per second
     # Get the saving frames durations
     saving_frames_durations = get_saving_frames_durations(cap, saving_frames_per_second) 
     # Start the loop
     count = 0
+
     while True:
         is_read, frame = cap.read()       # Read the frame
         
@@ -60,7 +62,8 @@ def get_frames():
             # if closest duration is less tha or equals the fame duration,
             # then save the frame
             frame_duration_formatted = format_timedelta(timedelta(seconds=frame_duration))
-            name = 'p1_sc_' + str(frame_duration_formatted) + '.jpg'
+            name = name_video[:-4] + '_sc_' + str(frame_duration_formatted) + '.jpg'
+            print(f"Saving frame {name}")
             cv2.imwrite(name, frame)    # Save the frame
             # Remove the saved duration from the list
             try:
@@ -68,7 +71,7 @@ def get_frames():
             except IndexError:
                 pass
 
-        count += 1                     # Increase the count
+        count += 1                     # Increase the counter
     
     cap.release()                      # Release the video capture
     cv2.destroyAllWindows()            # Destroy all the windows
@@ -104,50 +107,62 @@ def names(cont):
     length = len(files_names)              # Number of images in the folder
     return name, short_name, length
 
+def names_video(cont):
+    path = 'C:/Users/navan/OneDrive/Escritorio/database/videos_sc/Training'      # Path of the folder where the videos are located
+    files_names = os.listdir(path)         # List of the names of the videos
+    name = path + '/' + files_names[cont]  # Complete name of the video
+    short_name = files_names[cont]         # Short name of the video
+    length = len(files_names)              # Number of videos in the folder
+    return name, short_name, length
 
 #===========================================MAIN=FUNCTION===============================================#
 
 def main():
-    get_frames()                         # Get the frames from the video
-    cont=0
-    print(names(cont)[2])
+    cont = 0                             # Initialize the counter for the elements on the list of images, by the function names()
+    cont_vid = 0                         # Initialize the counter for the elements on the list of videos, by the function names_video()
+    #print(names(cont)[2])
+
     while True:
-        # Read two frames
-        img1 = cv2.imread(names(cont)[0], cv2.IMREAD_GRAYSCALE)
-        img2 = cv2.imread(names(cont+1)[0], cv2.IMREAD_GRAYSCALE)
-        diff = cv2.subtract(img1, img2)   # Difference between images
-        result = not np.any(diff)         # Compare the difference between images
+        get_frames(cont_vid)                         # Get the frames from the video
+        cont_vid += 1
 
-        if result is True:
-            print('The images are equal')
-        else:
-            cv2.imwrite('diff.jpg', diff)
-            print('The images are different')
+        while True:
+            # Read two frames
+            img1 = cv2.imread(names(cont)[0], cv2.IMREAD_GRAYSCALE)
+            img2 = cv2.imread(names(cont+1)[0], cv2.IMREAD_GRAYSCALE)
+            diff = cv2.subtract(img1, img2)   # Difference between images
+            result = not np.any(diff)         # Compare the difference between images
 
-        _, thresh = cv2.threshold(diff,80,255,cv2.THRESH_BINARY) # Thresholding, to segment the image
-        object_area = cal_object_area(thresh)    # Calculate the area of the objects in the segmented image
-        total_areas = sum(object_area)           # Calculate the total of areas by adding all the areas
-        
-        percentage = (total_areas * 100) / (img1.shape[0] * img1.shape[1]) # Calculate the percentage of similarity
-        percentage = 100 - percentage
+            if result is True:
+                print('The images are equal')
+            else:
+                cv2.imwrite('diff.jpg', diff)
+                print('The images are different')
 
-        if percentage < 99.0:
-            # Copy the content of source to destination
-            source = names(cont+1)[0]
-            destination = "C:/Users/navan/OneDrive/Documentos/TESIS/TesisDree/Training/sin_casco"
-            copy_file(source, destination)
+            _, thresh = cv2.threshold(diff, 80, 255 , cv2.THRESH_BINARY) # Thresholding, to segment the image
+            object_area = cal_object_area(thresh)    # Calculate the area of the objects in the segmented image
+            total_areas = sum(object_area)           # Calculate the total of areas by adding all the areas
+            
+            percentage = (total_areas * 100) / (img1.shape[0] * img1.shape[1]) # Calculate the percentage of similarity
+            percentage = 100 - percentage
 
-        cont += 1
+            if percentage < 99.0:
+                # Copy the content of source to destination
+                source = names(cont+1)[0]
+                destination = "C:/Users/navan/OneDrive/Documentos/TESIS/TesisDree/Training/sin_casco"
+                copy_file(source, destination)
 
-        if cont == names(cont)[2]-1:
-            break
+            cont += 1
 
-        print(f"Total area: {total_areas:.2f} pixels")
-        print(f"Similarity: {percentage:.2f}%")
-        print(f"Frame: {cont}")
+            if cont == names(cont)[2]-1:
+                break
 
-        # cv2.imshow('diff',thresh)
-        # cv2.waitKey(0)
+            print(f"Total area: {total_areas:.2f} pixels")
+            print(f"Similarity: {percentage:.2f}%")
+            print(f"Frame: {cont}")
+
+            # cv2.imshow('diff',thresh)
+            # cv2.waitKey(0)
 
 #========================================CALL=MAIN=FUNCTION=============================================#
 
