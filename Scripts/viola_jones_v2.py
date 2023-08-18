@@ -15,9 +15,10 @@ def detectFace(cont):
     if len(faces) > 0: # If there are faces detected more than 0
         for (x, y, w, h) in faces:
             cv2.rectangle(img, (x,y), (x+w, y+h), (255, 0, 0), 2) # 255, 0, 0 = color, 3 = thickness
-
-        output = 'C:/Users/navan/OneDrive/Escritorio/database/sc_detected_faces' # Path of the folder where the images are located
-        cv2.imwrite(os.path.join(output , names(cont)[1]), img) # Save the image
+        
+        # Save the output image
+        #output = 'C:/Users/navan/OneDrive/Escritorio/database/sc_detected_faces' # Path of the folder where the images are located
+        #cv2.imwrite(os.path.join(output , names(cont)[1]), img) # Save the image
 
         tfd = counter() # Call the counter function
 
