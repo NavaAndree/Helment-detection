@@ -1,7 +1,5 @@
 """""
-Description: This script extracts frames from a video. The intention here is to create a better code than
-            the original exfps.py (by Jaime) so we can work with it, and add functions to compare the frames, but that is
-            on another code.
+Description: This script extracts frames from a video.
 Author: Andree Nava 
 Date: 17/08/2023
 """""
