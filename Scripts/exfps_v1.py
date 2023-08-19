@@ -3,7 +3,7 @@
 # on another code.
 
 from datetime import timedelta
-import cv2, shutil, os, random
+import cv2, os
 import numpy as np
 
 SAVING_FRAMES_PER_SECOND = 4    # 4 frames per second
@@ -33,9 +33,10 @@ def get_saving_frames_durations(cap, saving_fps):
 
 
 def main():  
-    os.chdir(r'C:\\Users\\navan\\Videos\\sc') # cambiar directorio
+    #os.chdir(r'C:\\Users\\navan\\Videos\\sc') # cambiar directorio
+    os.chdir(r'/Users/navan/OneDrive/Escritorio/database/sc')
     # open the video
-    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Documentos\\TESIS\\Desarrollo-Previo\\Code\\videos_sc\\p16.mp4')
+    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\unclassified\\p1.mp4') 
     fps = cap.get(cv2.CAP_PROP_FPS) # get the frames per second
     # if the SAVING_FRAMES_PER_SECOND is above video FPS, then set it to FPS (as maximum)
     saving_frames_per_second = min(fps,SAVING_FRAMES_PER_SECOND) # get the saving frames per second
