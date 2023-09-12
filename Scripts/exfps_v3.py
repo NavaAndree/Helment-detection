@@ -4,7 +4,7 @@ Author: Andree Nava
 Date: 17/08/2023
 """""
 from datetime import timedelta
-import cv2, os
+import cv2, os, shutil
 import numpy as np 
 
 SAVING_FRANES_PER_SECOND = 4   # Number of frames to save per second
@@ -42,11 +42,22 @@ def counter():
     counter.counter += 1
     return counter.counter 
 
+def create_folder(path):
+    if os.path.exists(path):
+        shutil.rmtree(path)                # Remove the folder if it already exists
+        os.mkdir(path)                     # Create the folder
+    else:
+        os.mkdir(path)                     # Create the folder
+
+path = 'C:/Users/navan/OneDrive/Escritorio/database/sc' # Folder where the images will be saved
+create_folder(path)                        # Create the folder
+
 def get_frames(cont):
-    os.chdir(r'/Users/navan/OneDrive/Escritorio/database/sc')  # Change the current working directory
+    os.chdir(path) # Change the current working directory
     # Open the video file
     name_video = names_video(cont)[1]
-    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\videos_sc\\Training\\' + name_video) 
+    #cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\videos_sc\\Training\\' + name_video) 
+    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\v_sc\\' + name_video) 
     fps = cap.get(cv2.CAP_PROP_FPS)        # Get the frames per second
     saving_frames_per_second = min(fps, SAVING_FRANES_PER_SECOND) # Get the saving frames per second
     # Get the saving frames durations
@@ -91,7 +102,7 @@ def get_frames(cont):
 ############################## FUNCTION FOR EXTRACT DATA FROM A FOLDER ##################################
 
 def names_video(cont):
-    path = 'C:/Users/navan/OneDrive/Escritorio/database/videos_sc/Training'  # Folder where the videos are located
+    path = 'C:/Users/navan/OneDrive/Escritorio/database/v_sc'  # Folder where the videos are located
     files_names = os.listdir(path)         # List of the names of the videos
     name = path + '/' + files_names[cont]  # Complete name of the video
     short_name = files_names[cont]         # Short name of the video
@@ -102,11 +113,13 @@ def names_video(cont):
 
 def main():
     cont_vid = 0                       # Initialize the counter for the elements on the list of videos
-
+    print(f"Videos to process: {names_video(cont_vid)[2]}")
+    
     while True:
         get_frames(cont_vid)           # Get the frames from the video
         cont_vid += 1
         print('Video number: ', cont_vid, 'done!   ')
+
 
 #========================================CALL=MAIN=FUNCTION=============================================#
 

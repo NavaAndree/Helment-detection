@@ -24,3 +24,6 @@ git commit -m ""
 git remote add origin https://github.com/NavaAndree/Tesis-dree.git
 git branch -M main
 git push -u origin main
+
+# Raspberry Pi 4
+sudo nano /etc/dhcpcd.conf
