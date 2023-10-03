@@ -27,3 +27,10 @@ git push -u origin main
 
 # Raspberry Pi 4
 sudo nano /etc/dhcpcd.conf
+
+# Versiones python Path
+C:\Users\navan\AppData\Local\Programs\Python\Python311\python.exe
+C:\Users\navan\AppData\Local\Programs\Python\Python36\python.exe
+C:\Users\navan\AppData\Local\Microsoft\WindowsApps\python.exe
+
+

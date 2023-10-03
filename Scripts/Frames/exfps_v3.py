@@ -49,7 +49,7 @@ def create_folder(path):
     else:
         os.mkdir(path)                     # Create the folder
 
-path = 'C:/Users/navan/OneDrive/Escritorio/database/sc' # Folder where the images will be saved
+path = 'C:/Users/navan/OneDrive/Escritorio/database/test/con_casco' # Folder where the images will be saved
 create_folder(path)                        # Create the folder
 
 def get_frames(cont):
@@ -57,7 +57,7 @@ def get_frames(cont):
     # Open the video file
     name_video = names_video(cont)[1]
     #cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\videos_sc\\Training\\' + name_video) 
-    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\v_sc\\' + name_video) 
+    cap = cv2.VideoCapture('C:\\Users\\navan\\OneDrive\\Escritorio\\database\\test_v\\vcc\\' + name_video) 
     fps = cap.get(cv2.CAP_PROP_FPS)        # Get the frames per second
     saving_frames_per_second = min(fps, SAVING_FRANES_PER_SECOND) # Get the saving frames per second
     # Get the saving frames durations
@@ -82,7 +82,7 @@ def get_frames(cont):
             # if closest duration is less tha or equals the fame duration,
             # then save the frame
             frame_duration_formatted = format_timedelta(timedelta(seconds=frame_duration))
-            name = name_video[:-4] + '_sc_' + str(frame_duration_formatted) + '.jpg'
+            name = name_video[:-4] + '_cc_' + str(frame_duration_formatted) + '.jpg'
             ## MODIFIED CODE ##
             n_frame = counter()
             print(f"Accumulated frames: {n_frame}", end="\r")
@@ -102,7 +102,7 @@ def get_frames(cont):
 ############################## FUNCTION FOR EXTRACT DATA FROM A FOLDER ##################################
 
 def names_video(cont):
-    path = 'C:/Users/navan/OneDrive/Escritorio/database/v_sc'  # Folder where the videos are located
+    path = 'C:/Users/navan/OneDrive/Escritorio/database/test_v/vcc/'  # Folder where the videos are located
     files_names = os.listdir(path)         # List of the names of the videos
     name = path + '/' + files_names[cont]  # Complete name of the video
     short_name = files_names[cont]         # Short name of the video
